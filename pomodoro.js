@@ -3,9 +3,9 @@
 // use setInterval(function(){ alert("Hello"); }, 3000); to run timer
 
 function Pomodoro() {
-    this.workDuration = 15; // 25 minutes
-    this.breakDuration = 3; //5 minutes
-    this.currentTime = 15;
+    this.workDuration = 1500; // 25 minutes
+    this.breakDuration = 300; //5 minutes
+    this.currentTime = this.workDuration;
     this.activity = "work";   //can be 'work' or 'break'
     this.intervalID = null;
 
@@ -22,7 +22,7 @@ function Pomodoro() {
     };
     this.start = function(){
         if(!this.intervalID){
-            this.intervalID = setInterval(this.tick.bind(this), 1000);
+            this.intervalID = setInterval(this.tick.bind(this), 10);
         }
     };
     this.tick = function(){
@@ -37,9 +37,9 @@ function Pomodoro() {
                     this.currentTime = this.workDuration;
                     break;
             }
-        }else{
-            this.currentTime -= 1;
         }
+            this.currentTime -= 1;
+        
         if(this.updateCallback)this.updateCallback(this);
     };
     this.setUpdateCallback = function(callback){
@@ -76,11 +76,59 @@ function Pomodoro() {
 
 };
 
+
+
+function PomodoroDrawer(canvas){
+    this.canvas = canvas;
+    this.clear = true;
+
+    this.draw = function(pomo_obj){
+        let r = this.canvas.height / 2;
+        let ctx = this.canvas.getContext('2d');
+        let t = 1 - pomo_obj.getTimeFraction();
+        console.log(t);
+        if(this.clear == true) {
+            ctx.clearRect(0,0, r * 2, r * 2);
+            this.clear = false;
+            ctx.beginPath();
+            ctx.arc(r, r, r, 0, 2 * Math.PI);
+            ctx.stroke();
+        }
+        ctx.beginPath();
+        
+        let start_angle = 1.5 * Math.PI;
+        let end_angle = 0;
+
+        if(t == 1){
+            start_angle = 0;
+            end_angle = 2 * Math.PI;
+            this.clear = true;
+        }else{
+            ctx.moveTo(r,r);
+            ctx.lineTo(r , 0);
+            start_angle = 1.5 * Math.PI;
+            end_angle = (t * 2 * Math.PI) - 0.5 * Math.PI;
+        }
+        ctx.arc(r, r, r, start_angle, end_angle);
+        ctx.lineTo(r, r);
+        if(pomo_obj.getActivity() == "work"){
+            ctx.fillStyle = 'red';
+        }else{
+            ctx.fillStyle = 'green';
+        }
+        ctx.fill();
+        //ctx.stroke();
+    };
+};
+
+let canvas = document.getElementById("clock");
 let pomo = new Pomodoro();
+let pomoDrawer = new PomodoroDrawer(canvas);
 
 let printUpdate = function(pomo_obj){
     console.log(`${pomo_obj.getActivity()} time left: ${pomo_obj.getTime()} (${pomo_obj.getTimeFraction() * 100.0}%)`);
 };
 
-pomo.setUpdateCallback(printUpdate);
+
+pomo.setUpdateCallback(pomoDrawer.draw.bind(pomoDrawer));
 pomo.start();
