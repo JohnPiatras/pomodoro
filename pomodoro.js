@@ -102,10 +102,18 @@ function PomodoroDrawer(canvas, textEl){
     };
 
     this.draw = function(pomo_obj){
+        let color = null;
+        if(pomo_obj.getActivity() == "work"){
+            color = 'red';
+        }else{
+            color = 'green';
+        }
+
         //check and fix canvas size if needed
         if(this.canvas.width !== this.canvas.clientWidth){
             this.canvas.width = this.canvas.clientWidth;
-            this.canvas.height = this.canvas.clientHeight;            
+            this.canvas.height = this.canvas.clientHeight;      
+            this.clear(color);      
         }
 
         let r = this.canvas.height / 2;
@@ -117,11 +125,7 @@ function PomodoroDrawer(canvas, textEl){
         let end_angle = 0;
 
         if(t == 0){                         
-            if(pomo_obj.getActivity() == "work"){
-                this.clear("red");
-            }else{
-                this.clear("green");
-            }
+            this.clear(color);
                           
         }else{
             if(t == 1){
@@ -136,11 +140,7 @@ function PomodoroDrawer(canvas, textEl){
 
             ctx.arc(r, r, r, start_angle, end_angle);
             ctx.lineTo(r, r);
-            if(pomo_obj.getActivity() == "work"){
-                ctx.fillStyle = 'red';
-            }else{
-                ctx.fillStyle = 'green';
-            }
+            ctx.fillStyle = color;
             ctx.fill();
         }
 

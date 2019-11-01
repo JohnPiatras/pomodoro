@@ -11,7 +11,7 @@ body{
 
 #clock-wrapper{
     position:relative;
-    width:50%;
+    width:33%;
     margin-left:auto;
     margin-right:auto;
     font-size:6vw;
@@ -57,32 +57,23 @@ body{
     padding-bottom:100%;
 }
 
-#buttons{
-    width:50%;
-    margin:auto;
-}
-
-.button-wrapper{
-    position:relative;
-    width:6em;
-    
-}
-
 #button-wrapper{
     display:flex;
     justify-content: space-around;
+    width:50%;
+    margin:auto;
 }
 
 .bttn-round{
     position:relative;
     border:none;
     background:none;
-    width:6em;    
+    width:25%;    
     border:3px solid lightgray;
     border-radius:50%;
     box-shadow:2px 2px 4px 2px gray;
 
-    font-size:1.5em;
+    font-size:3vw;
     font-weight:bold;
 }
 
