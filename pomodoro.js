@@ -1,13 +1,16 @@
 "use strict"
 
 // use setInterval(function(){ alert("Hello"); }, 3000); to run timer
-
+//Pomodoro implements a pomodoro timer object which can be stopped, startedand reset
+//Use the setUpdateCallback method to set a function which will be called on each tick while mthe clock is running.
+//Use this call back to draw your clock to the page.
 function Pomodoro() {
     this.workDuration = 1500; // 25 minutes
     this.breakDuration = 300; //5 minutes
     this.currentTime = this.workDuration;
     this.activity = "work";   //can be 'work' or 'break'
     this.intervalID = null;
+    this.tickInterval = 10; //1 sec
 
     this.reset = function(){
         this.pause();
@@ -22,7 +25,7 @@ function Pomodoro() {
     };
     this.start = function(){
         if(!this.intervalID){
-            this.intervalID = setInterval(this.tick.bind(this), 10);
+            this.intervalID = setInterval(this.tick.bind(this), this.tickInterval);
         }
     };
     this.tick = function(){
@@ -78,15 +81,23 @@ function Pomodoro() {
 
 
 
-function PomodoroDrawer(canvas){
+function PomodoroDrawer(canvas, textEl){
     this.canvas = canvas;
+    this.textEl = textEl;
     this.clear = true;
 
     this.draw = function(pomo_obj){
+        //check and fix canvas size if needed
+        if(this.canvas.width !== this.canvas.clientWidth){
+            this.canvas.width = this.canvas.clientWidth;
+            this.canvas.height = this.canvas.clientHeight;
+        }
+
         let r = this.canvas.height / 2;
         let ctx = this.canvas.getContext('2d');
         let t = 1 - pomo_obj.getTimeFraction();
-        console.log(t);
+        let t_sec = pomo_obj.getTime();
+        //console.log(t);
         if(this.clear == true) {
             ctx.clearRect(0,0, r * 2, r * 2);
             this.clear = false;
@@ -117,13 +128,18 @@ function PomodoroDrawer(canvas){
             ctx.fillStyle = 'green';
         }
         ctx.fill();
+
+        let t_min = Math.floor(t_sec / 60);
+        let t_sec_remainder = t_sec - t_min * 60;
+        textEl.textContent = ((t_min < 10) ? "0":"") + t_min + ":" + ((t_sec_remainder < 10) ? "0":"") + t_sec_remainder;
         //ctx.stroke();
     };
 };
 
-let canvas = document.getElementById("clock");
+let canvas = document.getElementById("clock-canvas");
+let textEl = document.getElementById("clock-text");
 let pomo = new Pomodoro();
-let pomoDrawer = new PomodoroDrawer(canvas);
+let pomoDrawer = new PomodoroDrawer(canvas, textEl);
 
 let printUpdate = function(pomo_obj){
     console.log(`${pomo_obj.getActivity()} time left: ${pomo_obj.getTime()} (${pomo_obj.getTimeFraction() * 100.0}%)`);

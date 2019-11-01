@@ -3,12 +3,19 @@
   <head>
       <meta charset="utf-8">
       <title>Pomodoro Clock</title>
-      <link href="styles/style.css" rel="stylesheet" type="text/css">
+      <link href="style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <!-- final implementation will use a canvas to draw a 'clock' -->
 
-    <canvas id="clock" width="400" height="400" ></canvas>
+    <div id="clock-wrapper">
+      <canvas id="clock-canvas"></canvas>
+
+      <div id="clock-text-wrapper">
+        <p id="clock-text">Time here</p>
+      </div>
+    </div>
+    
 
     <script src="pomodoro.js"></script>
   </body>
