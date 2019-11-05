@@ -58,7 +58,7 @@ function Pomodoro() {
         return this.workDuration;
     };
     this.setBreakDuration = function(t){
-        this.BreakDuration = t;
+        this.breakDuration = t;
     };
     this.getBreakDuration = function(){
         return this.breakDuration;
@@ -166,22 +166,48 @@ pomo.reset();
 pomoDrawer.draw(pomo);
 
 let bttn_start = document.getElementById("bttn-start");
+let bttn_reset = document.getElementById("bttn-reset");
+let bttn_ok = document.getElementById("bttn-ok");
+let settings_dialog = document.getElementById("settings-dialog");
+let work_time_input = document.getElementById("work-time-input");
+let break_time_input = document.getElementById("break-time-input");
+
 bttn_start.onclick = function(){
     if(bttn_start.innerHTML == "<span>Start</span>"){
         //pomoDrawer.clear = true;
         pomo.start();
         bttn_start.innerHTML = "<span>Stop</span>";
+        bttn_reset.innerHTML = "<span>Reset</span>";
     }else{
         pomo.pause();
         bttn_start.innerHTML = "<span>Start</span>";
+        bttn_reset.innerHTML = "<span>Set</span>";
     }
 }
 
-let bttn_reset = document.getElementById("bttn-reset");
-bttn_reset.onclick = function(){    
+
+bttn_reset.onclick = function(){ 
+    if(bttn_reset.innerHTML == "<span>Reset</span>"){
+        pomo.reset();
+        pomoDrawer.draw(pomo);    
+        bttn_start.innerHTML = "<span>Start</span>";
+        bttn_reset.innerHTML = "<span>Set</span>";
+    }else{
+        pomo.pause();
+        work_time_input.value = pomo.getWorkDuration() / 60;
+        break_time_input.value = pomo.getBreakDuration() / 60;
+        settings_dialog.style.visibility="visible";
+    }
+    
+}
+
+bttn_ok.onclick = function(){
+    pomo.setWorkDuration(work_time_input.value * 60);
+    pomo.setBreakDuration(break_time_input.value * 60);
     pomo.reset();
-    pomoDrawer.draw(pomo);    
-    bttn_start.innerHTML = "<span>Start</span>";
+    pomoDrawer.draw(pomo);
+    settings_dialog.style.visibility = "hidden";
+
 }
 //pomo.start();
 

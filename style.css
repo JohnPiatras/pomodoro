@@ -11,10 +11,10 @@ body{
 
 #clock-wrapper{
     position:relative;
-    width:33%;
+    width:70vh;
     margin-left:auto;
     margin-right:auto;
-    font-size:6vw;
+    font-size:12vh;
 }
 
 #clock-wrapper::after{
@@ -60,7 +60,7 @@ body{
 #button-wrapper{
     display:flex;
     justify-content: space-around;
-    width:50%;
+    width:70vh;
     margin:auto;
 }
 
@@ -68,12 +68,12 @@ body{
     position:relative;
     border:none;
     background:none;
-    width:25%;    
+    width:20vh;    
     border:3px solid lightgray;
     border-radius:50%;
     box-shadow:2px 2px 4px 2px gray;
 
-    font-size:3vw;
+    font-size:5vh;
     font-weight:bold;
 }
 
@@ -96,4 +96,83 @@ body{
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
+}
+
+.dialog{
+    visibility:hidden;
+
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    width:15em;
+    height:7em;
+    margin:auto;
+    background-color:var(--bttn-hightlight-color);
+    border:3px solid orange;
+    padding-top:1em;
+    border-radius:16px;
+    box-shadow:2px 2px 4px 2px gray;
+    background-color:var(--main-bg-color);
+}
+
+.dialog__row{
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    align-items:baseline;
+    justify-content:center;
+}
+
+.dialog__label{
+    text-align:right;
+    width:6em;
+    
+}
+
+.dialog__input{
+    width:3em;
+    font-size:1em;
+    margin-bottom:0.5em;
+}
+
+.dialog__label:after{
+    content:":";
+}
+
+.bttn-rect{
+    border:2px solid orange;
+    padding:0.25em;
+    width:4em;
+    margin: 0.5em auto 0.5em auto;
+    text-align:center;
+    border-radius:8px;
+    box-shadow:2px 2px 4px 2px gray;
+    background-color:var(--main-bg-color);
+}
+
+.bttn-rect:active{
+    box-shadow:none;
+}
+
+.bttn-rect:hover{    
+    background-color:var(--bttn-hightlight-color);
+}
+
+@media only screen and (orientation: portrait) {
+    #clock-wrapper{
+        width:95%;
+        font-size:16vw;
+    }
+
+    #button-wrapper{
+        justify-content:space-between;
+        width:95%;
+    }
+
+    .bttn-round{
+        font-size:9vw;
+        width:40%;
+    }
 }

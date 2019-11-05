@@ -20,11 +20,23 @@
 
       <div id="bttn-start" class="bttn-round"><span>Start</span></div>
 
-      <div id="bttn-reset" class="bttn-round">
-          <span>Reset</span>
+      <div id="bttn-reset" class="bttn-round"><span>Set</span></div>
+    </div>
+
+
+    <div class="dialog" id="settings-dialog">
+        <div class="dialog__row">
+         
+            <label class="dialog__label" for="work-time-input">Work time</label>
+            <input class="dialog__input" type="number" id="work-time-input" min="1" max="60">
+         
+            <label class="dialog__label" for="break-time-input">Break time</label>        
+            <input class="dialog__input" type="number" id="break-time-input" min="1" max="60">
+         
+        </div>
+        <div id="bttn-ok" class="bttn-rect">Ok</div>
       </div>
 
-    </div>
     <script src="pomodoro.js"></script>
   </body>
 </html>
